@@ -1,0 +1,92 @@
+sudo: false
+language: rust
+cache: cargo
+rust:
+  - stable
+  - beta
+  - nightly
+
+os:
+  - linux
+
+env:
+    matrix:
+      - FEATURES="static"
+      - FEATURES="wayland"
+      - FEATURES="render"
+      - FEATURES="serialization"
+      - FEATURES="static wayland"
+      - FEATURES="static render"
+      - FEATURES="static serialization"
+      - FEATURES="wayland render"
+      - FEATURES="wayland serialization"
+      - FEATURES="render serialization"
+      - FEATURES="static render wayland"
+      - FEATURES="static render serialization"
+      - FEATURES="static wayland serialization"
+      - FEATURES="static render wayland serialization"
+    global:
+      - TRAVIS_CARGO_NIGHTLY_FEATURE=""
+
+before_script:
+  - |
+      pip install 'travis-cargo<0.2' --user &&
+      export PATH=$HOME/.local/bin:$PATH
+  - (cargo install rustfmt || true)
+  - (cargo install clippy || true)
+  - wget https://github.com/Cloudef/wlc/releases/download/v0.0.7/wlc-0.0.7.tar.bz2 -O /tmp/wlc.tar.bz2
+  - cd /tmp/; tar -xvf /tmp/wlc.tar.bz2
+  - cd /tmp/wlc; cmake -DCMAKE_BUILD_TYPE=Release -DSOURCE_WLPROTOP=ON -DCMAKE_INSTALL_LIBDIR=/usr/lib -DCMAKE_INSTALL_PREFIX=/usr
+
+script:
+  - |
+        if [ $TRAVIS_RUST_VERSION != "nightly" ]
+        then
+            export FEATURES="unsafe-stable $FEATURES"
+        done
+        travis-cargo fmt -- --write-mode=diff &&
+        travis-cargo build --features $FEATURES &&
+        travis-cargo test --features $FEATURES &&
+        travis-cargo clippy --features $FEATURES
+        if [ $FEATURES == "static render wayland serialization" ]
+        then
+            travis-cargo doc --only nightly
+        done
+after_success:
+  - |
+        if [ $FEATURES == "static render wayland serialization" ]
+        then
+            travis-cargo --only nightly doc-upload
+        done
+
+addons:
+  apt:
+    packages:
+      - build-essential
+      - pkg-config
+      - clang
+      - libclang-dev
+      - gcc-multilib
+      - cmake
+      - libpixman-1-dev
+      - libwayland-dev
+      - libxkbcommon-dev
+      - udev
+      - libinput-dev
+      - libx11-dev
+      - libxfixes-dev
+      - libx11-xcb-dev
+      - libxcb-ewmh-dev
+      - libxcb-composite0-dev
+      - libxcb-xkb-dev
+      - libxcb-xfixes0-dev
+      - libxcb-image0-dev
+      - libgbm-dev
+      - libdrm-dev
+      - libegl1-mesa-dev
+      - libgles2-mesa-dev
+      - libdbus-1-dev
+      - libsystemd-dev
+      - libcurl4-openssl-dev
+      - libelf-dev
+      - libdw-dev
