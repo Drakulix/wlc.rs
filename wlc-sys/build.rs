@@ -78,6 +78,7 @@ fn cmake() {
                 .define("WLC_BUILD_TESTS", "OFF")
                 .build();
 
+    println!("cargo:rustc-link-search=native={}/lib", dst.display());
     println!("cargo:rustc-link-search=native={}/lib64", dst.display());
     println!("cargo:rustc-link-search=native={}/build/protos", dst.display());
     println!("cargo:rustc-link-search=native={}/build/lib/chck/lib", dst.display());

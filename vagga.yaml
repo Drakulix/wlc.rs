@@ -1,0 +1,176 @@
+minimum-vagga: v0.5.0
+
+_cmds:
+    build: &build-cmd |
+        rustup update
+        if [ -z "$@" ]; then
+            cargo build
+        else
+            cargo build --features "$@"
+        fi
+    build-example: &build-example-cmd |
+        rustup update
+        if [ -z "$@" ]; then
+            cargo build --example example
+        else
+            cargo build --example example --features "$@"
+        fi
+    test: &test-cmd |
+        rustup update
+        if [ -z "$@" ]; then
+            cargo test
+        else
+            cargo test --features "$@"
+        fi
+
+
+containers:
+    base:
+        auto-clean: true
+        setup:
+            - !Ubuntu xenial
+            - !UbuntuUniverse
+            - !Install [build-essential, wget, curl, pkg-config, file, openssl, sudo, ca-certificates, gcc-multilib, clang, libclang-dev, cmake, git, libpixman-1-dev, libwayland-dev, libxkbcommon-dev, udev, libinput-dev, libx11-dev, libxfixes-dev, libx11-xcb-dev, libxcb-ewmh-dev, libxcb-composite0-dev, libxcb-xkb-dev, libxcb-xfixes0-dev, libxcb-image0-dev, libgbm-dev, libdrm-dev, libgl1-mesa-dev, libegl1-mesa-dev, libgles2-mesa-dev, libdbus-1-dev, libsystemd-dev, libcurl4-openssl-dev, libelf-dev, libdw-dev, wayland-protocols, linux-libc-dev]
+            - !PipConfig
+              dependencies: true
+            - !Py2Install [travis-cargo==0.1.15]
+            - !Sh |
+                cd /tmp/
+                git clone git://github.com/Cloudef/wlc
+                cd wlc;
+                git submodule update --init --recursive
+                mkdir target && cd target
+                cmake -DCMAKE_BUILD_TYPE=Release -DSOURCE_WLPROTO=ON -DCMAKE_INSTALL_LIBDIR=/usr/lib -DCMAKE_INSTALL_PREFIX=/usr ..
+                make
+                make install
+                cd ..
+                rm -rf wlc
+    stable:
+        auto-clean: true
+        environ:
+            HOME: /work/.vagga/stable-home
+            PATH: /bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/work/.vagga/stable-home/.cargo/bin:/work/.vagga/stable-home/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/
+        setup:
+            - !Container base
+            - !Env HOME: /work/.vagga/stable-home
+            - !Sh rm -rf $HOME/.rustup $HOME/.cargo
+            - !Sh curl https://sh.rustup.rs -sSf | sh -s -- -y --default-host x86_64-unknown-linux-gnu --default-toolchain stable --no-modify-path
+            - !Env PATH: /bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/work/.vagga/stable-home/.cargo/bin
+            - !Sh cargo install --git https://github.com/hecal3/cargo-install-upgrade
+            - !Sh cargo install rustfmt
+    beta:
+        auto-clean: true
+        environ:
+            HOME: /work/.vagga/beta-home
+            PATH: /bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/work/.vagga/beta-home/.cargo/bin:/work/.vagga/beta-home/.rustup/toolchains/beta-x86_64-unknown-linux-gnu/bin/
+        setup:
+            - !Container base
+            - !Env HOME: /work/.vagga/beta-home
+            - !Sh rm -rf $HOME/.rustup $HOME/.cargo
+            - !Sh curl https://sh.rustup.rs -sSf | sh -s -- -y --default-host x86_64-unknown-linux-gnu --default-toolchain beta --no-modify-path
+    nightly:
+        auto-clean: true
+        environ:
+            HOME: /work/.vagga/nightly-home
+            PATH: /bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/work/.vagga/nightly-home/.cargo/bin:/work/.vagga/nightly-home/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin/
+        setup:
+            - !Container base
+            - !Env HOME: /work/.vagga/nightly-home
+            - !Sh rm -rf $HOME/.rustup $HOME/.cargo
+            - !Sh curl https://sh.rustup.rs -sSf | sh -s -- -y --default-host x86_64-unknown-linux-gnu --default-toolchain nightly --no-modify-path
+            - !Env PATH: /bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/work/.vagga/nightly-home/.cargo/bin
+            - !Sh cargo install --git https://github.com/hecal3/cargo-install-upgrade
+            - !Sh cargo install clippy
+
+commands:
+    check-fmt: !Command
+        description: Check for wrong formatting
+        container: stable
+        run: |
+                rustup update
+                cargo install-upgrade
+                cargo fmt -- --write-mode=diff
+
+    build-stable: !Command
+        description: Build on rust stable
+        accepts-arguments: true
+        container: stable
+        run: *build-cmd
+    build-beta: !Command
+        description: Build on rust beta
+        accepts-arguments: true
+        container: beta
+        run: *build-cmd
+    build-nightly: !Command
+        description: Build on rust beta
+        accepts-arguments: true
+        container: nightly
+        run: *build-cmd
+
+    test-stable: !Command
+        description: Test on rust stable
+        accepts-arguments: true
+        container: stable
+        run: *test-cmd
+    test-beta: !Command
+        description: Test on rust beta
+        accepts-arguments: true
+        container: beta
+        run: *test-cmd
+    test-nightly: !Command
+        description: Test on rust beta
+        accepts-arguments: true
+        container: nightly
+        run: *test-cmd
+
+    build-example-stable: !Command
+        description: Build the example on rust stable
+        accepts-arguments: true
+        container: stable
+        run: *build-example-cmd
+    build-example-beta: !Command
+        description: Build the example on rust beta
+        accepts-arguments: true
+        container: beta
+        run: *build-example-cmd
+    build-example-nightly: !Command
+        description: Build the example on rust beta
+        accepts-arguments: true
+        container: nightly
+        run: *build-example-cmd
+
+    clippy: !Command
+        description: Run clippy over codebase
+        accepts-arguments: true
+        container: nightly
+        run: |
+                rustup update
+                cargo install-upgrade
+                if [ -z "$@" ]; then
+                    cargo clippy
+                else
+                    cargo clippy --features "$@"
+                fi
+
+    doc: !Command
+        description: Generate documentation
+        accepts-arguments: true
+        container: nightly
+        run: |
+                rustup update
+                if [ -z "$@" ]; then
+                    cargo doc
+                else
+                    cargo doc --features "$@"
+                fi
+
+    doc-upload: !Command
+        description: Upload documentation
+        accepts-arguments: true
+        container: nightly
+        run: |
+            export TRAVIS_BRANCH=$1
+            export TRAVIS_REPO_SLUG=$2
+            export TRAVIS_PULL_REQUEST=$3
+            export GH_TOKEN=$4
+            travis-cargo doc-upload
