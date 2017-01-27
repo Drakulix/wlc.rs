@@ -2,91 +2,89 @@ sudo: false
 language: rust
 cache: cargo
 rust:
-  - stable
-  - beta
-  - nightly
-
+- stable
+- beta
+- nightly
 os:
-  - linux
-
+- linux
 env:
-    matrix:
-      - FEATURES="static"
-      - FEATURES="wayland"
-      - FEATURES="render"
-      - FEATURES="serialization"
-      - FEATURES="static wayland"
-      - FEATURES="static render"
-      - FEATURES="static serialization"
-      - FEATURES="wayland render"
-      - FEATURES="wayland serialization"
-      - FEATURES="render serialization"
-      - FEATURES="static render wayland"
-      - FEATURES="static render serialization"
-      - FEATURES="static wayland serialization"
-      - FEATURES="static render wayland serialization"
-    global:
-      - TRAVIS_CARGO_NIGHTLY_FEATURE=""
-
+  matrix:
+  - FEATURES="static"
+  - FEATURES="wayland"
+  - FEATURES="render"
+  - FEATURES="serialization"
+  - FEATURES="static wayland"
+  - FEATURES="static render"
+  - FEATURES="static serialization"
+  - FEATURES="wayland render"
+  - FEATURES="wayland serialization"
+  - FEATURES="render serialization"
+  - FEATURES="static render wayland"
+  - FEATURES="static render serialization"
+  - FEATURES="static wayland serialization"
+  - FEATURES="static render wayland serialization"
+  global:
+  - TRAVIS_CARGO_NIGHTLY_FEATURE=""
+  - secure: LfrkRn+N3DVHLHuVFX1RB2clpfQ6IwipiRRwB0Kg7ARM/rMhS5L3kM98PUQ5u+X3mgfxn93whAHtIh3S4oNQOWYMgYBYPNaFaGbV4zkEeKyAvU5cl8AzAuyH+hSx/x/njh8A0Z2Ki90lM/8rPHuU4VIudcunR9WvUkbwglRfZfcfQZY/I5PJ2rwWNBvsYopMv1o2kU0oFqEm89MIL6H7WpH02w1oWDiE+EQAQDYEsoqcxJayblNkikSLEH1zJouP5F1exN6j5gsnapHr2bVDBGNw9o6He5idK3iMaUaFjtqgDF+/Wlci1v1+FnQnX11691aR1pzpBA3KrQry8IeLtR6s7THWnr6/zWRbqKGzhN6mXGHy/yWPlg+ade2333i6qHa/KxQDvt7/S1mSBtwtvCgr7VIMLo5C3n7TDY0H0+WkjlqVQz2iIB272OOGct6XQkjoG1V3xWm2DjjQo4GVT619DsF8ZiMTeJUD86Rix5kLu9XVvxlIHey7EQwM838e2r9U+a3XdQPixkTV4c9zZnE+t3ZyHSMdIUu2GFNfgjyCHBtj80f1E42npIPFp6JSEbBcvkqpp4ggRAuFMOrmdD79YvGDPXEp9GshXUvnZ6X0c/mN5Cfro9JvPGkC6fmKRMP+RZW7WpWvIpJuO91FL+6xFIlZmq5yQBPROx22FTE=
 before_script:
-  - |
-      pip install 'travis-cargo<0.2' --user &&
-      export PATH=$HOME/.local/bin:$PATH
-  - (cargo install rustfmt || true)
-  - (cargo install clippy || true)
-  - wget https://github.com/Cloudef/wlc/releases/download/v0.0.7/wlc-0.0.7.tar.bz2 -O /tmp/wlc.tar.bz2
-  - cd /tmp/; tar -xvf /tmp/wlc.tar.bz2
-  - cd /tmp/wlc; cmake -DCMAKE_BUILD_TYPE=Release -DSOURCE_WLPROTOP=ON -DCMAKE_INSTALL_LIBDIR=/usr/lib -DCMAKE_INSTALL_PREFIX=/usr
-
+- |
+  pip install 'travis-cargo<0.2' --user &&
+  export PATH=$HOME/.local/bin:$PATH
+- "(cargo install rustfmt || true)"
+- "(cargo install clippy || true)"
+- wget https://github.com/Cloudef/wlc/releases/download/v0.0.7/wlc-0.0.7.tar.bz2 -O
+  /tmp/wlc.tar.bz2
+- cd /tmp/; tar -xvf /tmp/wlc.tar.bz2
+- cd /tmp/wlc; cmake -DCMAKE_BUILD_TYPE=Release -DSOURCE_WLPROTOP=ON -DCMAKE_INSTALL_LIBDIR=/usr/lib
+  -DCMAKE_INSTALL_PREFIX=/usr
 script:
-  - |
-        if [ $TRAVIS_RUST_VERSION != "nightly" ]
-        then
-            export FEATURES="unsafe-stable $FEATURES"
-        done
-        travis-cargo fmt -- --write-mode=diff &&
-        travis-cargo build --features $FEATURES &&
-        travis-cargo test --features $FEATURES &&
-        travis-cargo clippy --features $FEATURES
-        if [ $FEATURES == "static render wayland serialization" ]
-        then
-            travis-cargo doc --only nightly
-        done
+- |
+  if [ $TRAVIS_RUST_VERSION != "nightly" ]
+  then
+      export FEATURES="unsafe-stable $FEATURES"
+  done
+  travis-cargo fmt -- --write-mode=diff &&
+  travis-cargo build --features $FEATURES &&
+  travis-cargo test --features $FEATURES &&
+  travis-cargo clippy --features $FEATURES
+  if [ $FEATURES == "static render wayland serialization" ]
+  then
+      travis-cargo doc --only nightly
+  done
 after_success:
-  - |
-        if [ $FEATURES == "static render wayland serialization" ]
-        then
-            travis-cargo --only nightly doc-upload
-        done
-
+- |
+  if [ $FEATURES == "static render wayland serialization" ]
+  then
+      travis-cargo --only nightly doc-upload
+  done
 addons:
   apt:
     packages:
-      - build-essential
-      - pkg-config
-      - clang
-      - libclang-dev
-      - gcc-multilib
-      - cmake
-      - libpixman-1-dev
-      - libwayland-dev
-      - libxkbcommon-dev
-      - udev
-      - libinput-dev
-      - libx11-dev
-      - libxfixes-dev
-      - libx11-xcb-dev
-      - libxcb-ewmh-dev
-      - libxcb-composite0-dev
-      - libxcb-xkb-dev
-      - libxcb-xfixes0-dev
-      - libxcb-image0-dev
-      - libgbm-dev
-      - libdrm-dev
-      - libegl1-mesa-dev
-      - libgles2-mesa-dev
-      - libdbus-1-dev
-      - libsystemd-dev
-      - libcurl4-openssl-dev
-      - libelf-dev
-      - libdw-dev
+    - build-essential
+    - pkg-config
+    - clang
+    - libclang-dev
+    - gcc-multilib
+    - cmake
+    - libpixman-1-dev
+    - libwayland-dev
+    - libxkbcommon-dev
+    - udev
+    - libinput-dev
+    - libx11-dev
+    - libxfixes-dev
+    - libx11-xcb-dev
+    - libxcb-ewmh-dev
+    - libxcb-composite0-dev
+    - libxcb-xkb-dev
+    - libxcb-xfixes0-dev
+    - libxcb-image0-dev
+    - libgbm-dev
+    - libdrm-dev
+    - libegl1-mesa-dev
+    - libgles2-mesa-dev
+    - libdbus-1-dev
+    - libsystemd-dev
+    - libcurl4-openssl-dev
+    - libelf-dev
+    - libdw-dev
