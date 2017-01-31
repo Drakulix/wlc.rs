@@ -2,3 +2,4 @@ target
 Cargo.lock
 *.gch
 gen.rs
+.vagga

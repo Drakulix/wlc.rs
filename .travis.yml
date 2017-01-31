@@ -1,14 +1,13 @@
-sudo: false
+sudo: required
+dist: trusty
 language: rust
-cache: cargo
-rust:
-- stable
-- beta
-- nightly
-os:
-- linux
+cache:
+    directories:
+        - .vagga
+
 env:
   matrix:
+  - FEATURES=""
   - FEATURES="static"
   - FEATURES="wayland"
   - FEATURES="render"
@@ -22,69 +21,44 @@ env:
   - FEATURES="static render wayland"
   - FEATURES="static render serialization"
   - FEATURES="static wayland serialization"
+  - FEATURES="render wayland serialization"
   - FEATURES="static render wayland serialization"
   global:
-  - TRAVIS_CARGO_NIGHTLY_FEATURE=""
   - secure: LfrkRn+N3DVHLHuVFX1RB2clpfQ6IwipiRRwB0Kg7ARM/rMhS5L3kM98PUQ5u+X3mgfxn93whAHtIh3S4oNQOWYMgYBYPNaFaGbV4zkEeKyAvU5cl8AzAuyH+hSx/x/njh8A0Z2Ki90lM/8rPHuU4VIudcunR9WvUkbwglRfZfcfQZY/I5PJ2rwWNBvsYopMv1o2kU0oFqEm89MIL6H7WpH02w1oWDiE+EQAQDYEsoqcxJayblNkikSLEH1zJouP5F1exN6j5gsnapHr2bVDBGNw9o6He5idK3iMaUaFjtqgDF+/Wlci1v1+FnQnX11691aR1pzpBA3KrQry8IeLtR6s7THWnr6/zWRbqKGzhN6mXGHy/yWPlg+ade2333i6qHa/KxQDvt7/S1mSBtwtvCgr7VIMLo5C3n7TDY0H0+WkjlqVQz2iIB272OOGct6XQkjoG1V3xWm2DjjQo4GVT619DsF8ZiMTeJUD86Rix5kLu9XVvxlIHey7EQwM838e2r9U+a3XdQPixkTV4c9zZnE+t3ZyHSMdIUu2GFNfgjyCHBtj80f1E42npIPFp6JSEbBcvkqpp4ggRAuFMOrmdD79YvGDPXEp9GshXUvnZ6X0c/mN5Cfro9JvPGkC6fmKRMP+RZW7WpWvIpJuO91FL+6xFIlZmq5yQBPROx22FTE=
+
 before_script:
+- "echo ubuntu-mirror: http://mirrors.us.kernel.org/ubuntu/ > ~/.vagga.yaml"
+- "echo alpine-mirror: http://mirrors.gigenet.com/alpinelinux/ >> ~/.vagga.yaml"
 - |
-  pip install 'travis-cargo<0.2' --user &&
-  export PATH=$HOME/.local/bin:$PATH
-- "(cargo install rustfmt || true)"
-- "(cargo install clippy || true)"
-- wget https://github.com/Cloudef/wlc/releases/download/v0.0.7/wlc-0.0.7.tar.bz2 -O
-  /tmp/wlc.tar.bz2
-- cd /tmp/; tar -xvf /tmp/wlc.tar.bz2
-- cd /tmp/wlc; cmake -DCMAKE_BUILD_TYPE=Release -DSOURCE_WLPROTOP=ON -DCMAKE_INSTALL_LIBDIR=/usr/lib
-  -DCMAKE_INSTALL_PREFIX=/usr
+    echo "$(id -un):100000:65536" | sudo tee /etc/subuid | sudo tee /etc/subgid
+    sudo apt-get install uidmap -y
+    curl http://files.zerogw.com/vagga/vagga-install-testing.sh | sh
+
 script:
+- vagga check-fmt
+- vagga clippy "$FEATURES"
 - |
-  if [ $TRAVIS_RUST_VERSION != "nightly" ]
-  then
-      export FEATURES="unsafe-stable $FEATURES"
-  done
-  travis-cargo fmt -- --write-mode=diff &&
-  travis-cargo build --features $FEATURES &&
-  travis-cargo test --features $FEATURES &&
-  travis-cargo clippy --features $FEATURES
-  if [ $FEATURES == "static render wayland serialization" ]
-  then
-      travis-cargo doc --only nightly
-  done
+    if [[ $FEATURES != *"serialization"* ]]; then
+        vagga build-stable "unsafe-stable $FEATURES"
+        vagga build-example-stable "unsafe-stable $FEATURES"
+        vagga test-stable "unsafe-stable $FEATURES"
+    fi
+
+- vagga build-beta "unsafe-stable $FEATURES"
+- vagga build-example-beta "unsafe-stable $FEATURES"
+- vagga test-beta "unsafe-stable $FEATURES"
+- vagga build-nightly "$FEATURES"
+- vagga build-example-nightly "$FEATURES"
+- vagga test-nightly "$FEATURES"
+- |
+    if [ "$FEATURES" == "static render wayland serialization" ]
+    then
+      vagga doc "$FEATURES"
+    fi
+
 after_success:
 - |
-  if [ $FEATURES == "static render wayland serialization" ]
-  then
-      travis-cargo --only nightly doc-upload
-  done
-addons:
-  apt:
-    packages:
-    - build-essential
-    - pkg-config
-    - clang
-    - libclang-dev
-    - gcc-multilib
-    - cmake
-    - libpixman-1-dev
-    - libwayland-dev
-    - libxkbcommon-dev
-    - udev
-    - libinput-dev
-    - libx11-dev
-    - libxfixes-dev
-    - libx11-xcb-dev
-    - libxcb-ewmh-dev
-    - libxcb-composite0-dev
-    - libxcb-xkb-dev
-    - libxcb-xfixes0-dev
-    - libxcb-image0-dev
-    - libgbm-dev
-    - libdrm-dev
-    - libegl1-mesa-dev
-    - libgles2-mesa-dev
-    - libdbus-1-dev
-    - libsystemd-dev
-    - libcurl4-openssl-dev
-    - libelf-dev
-    - libdw-dev
+    if [ $FEATURES == "static render wayland serialization" ]
+    then
+      vagga doc-upload $TRAVIS_BRANCH $TRAVIS_REPO_SLUG $TRAVIS_PULL_REQUEST $GH_TOKEN
+    fi
