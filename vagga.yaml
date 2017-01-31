@@ -30,10 +30,7 @@ containers:
         setup:
             - !Ubuntu xenial
             - !UbuntuUniverse
-            - !Install [build-essential, wget, curl, pkg-config, file, openssl, sudo, ca-certificates, gcc-multilib, clang, libclang-dev, cmake, git, libpixman-1-dev, libwayland-dev, libxkbcommon-dev, udev, libinput-dev, libx11-dev, libxfixes-dev, libx11-xcb-dev, libxcb-ewmh-dev, libxcb-composite0-dev, libxcb-xkb-dev, libxcb-xfixes0-dev, libxcb-image0-dev, libgbm-dev, libdrm-dev, libgl1-mesa-dev, libegl1-mesa-dev, libgles2-mesa-dev, libdbus-1-dev, libsystemd-dev, libcurl4-openssl-dev, libelf-dev, libdw-dev, wayland-protocols, linux-libc-dev]
-            - !PipConfig
-              dependencies: true
-            - !Py2Install [travis-cargo==0.1.15]
+            - !Install [build-essential, wget, curl, pkg-config, file, openssl, sudo, ca-certificates, gcc-multilib, clang, libclang-dev, cmake, git, libpixman-1-dev, libwayland-dev, libxkbcommon-dev, udev, libinput-dev, libx11-dev, libxfixes-dev, libx11-xcb-dev, libxcb-ewmh-dev, libxcb-composite0-dev, libxcb-xkb-dev, libxcb-xfixes0-dev, libxcb-image0-dev, libgbm-dev, libdrm-dev, libgl1-mesa-dev, libegl1-mesa-dev, libgles2-mesa-dev, libdbus-1-dev, libsystemd-dev, wayland-protocols, linux-libc-dev]
             - !Sh |
                 cd /tmp/
                 git clone git://github.com/Cloudef/wlc
@@ -168,9 +165,4 @@ commands:
         description: Upload documentation
         accepts-arguments: true
         container: nightly
-        run: |
-            export TRAVIS_BRANCH=$1
-            export TRAVIS_REPO_SLUG=$2
-            export TRAVIS_PULL_REQUEST=$3
-            export GH_TOKEN=$4
-            travis-cargo doc-upload
+        run: travis-cargo doc-upload

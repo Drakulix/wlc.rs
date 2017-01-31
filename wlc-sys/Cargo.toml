@@ -3,6 +3,13 @@ name = "wlc-sys"
 version = "0.0.7"
 authors = ["Victor Brekenfeld (Drakulix) <github@drakulix.de>"]
 build = "build.rs"
+description = "Bindgen generated low-level wlc wrapper"
+documentation = "https://drakulix.github.io/wlc/wlc-sys/"
+repository = "https://github.com/Drakulix/wlc/tree/master/wlc-sys"
+keywords = ["wayland", "compositor", "bindings"]
+categories = ["external-ffi-bindings"]
+license = "MIT"
+exclude = [".travis.yml", ".rustfmt.toml"]
 
 [lib]
 path = "src/lib.rs"
