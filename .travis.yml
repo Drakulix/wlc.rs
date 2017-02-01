@@ -70,7 +70,7 @@ script:
 
 after_success:
 - |
-    if [ $FEATURES == "static render wayland serialization" ]
+    if [ "$FEATURES" == "static render wayland serialization" ]
     then
       travis-cargo doc-upload
     fi
