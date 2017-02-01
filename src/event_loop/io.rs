@@ -57,7 +57,7 @@ pub fn event_loop_add_io<R: AsRawFd, T: IoCallback<R>>(io: R, mask: Event::Flags
     EventSource(event_source, notification)
 }
 
-#[allow(deref_addrof)]
+#[cfg_attr(feature = "cargo-clippy", allow(deref_addrof))]
 unsafe extern "C" fn event_loop_io_cb<R, T: IoCallback<R>>(_fd: i32, mask: u32, userdata: *mut libc::c_void)
                                                            -> i32 {
     let mut boxed: Box<(R, T, Weak<()>)> = Box::from_raw(userdata as *mut _);

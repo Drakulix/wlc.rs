@@ -10,7 +10,8 @@ pub struct Point {
     pub y: i32,
 }
 
-#[allow(if_same_then_else)]
+
+#[cfg_attr(feature = "cargo-clippy", allow(if_same_then_else))]
 impl PartialOrd for Point {
     fn partial_cmp(&self, other: &Point) -> Option<Ordering> {
         if self.x < other.x && self.y <= other.y {
@@ -36,7 +37,7 @@ pub struct Size {
     pub h: u32,
 }
 
-#[allow(if_same_then_else)]
+#[cfg_attr(feature = "cargo-clippy", allow(if_same_then_else))]
 impl PartialOrd for Size {
     fn partial_cmp(&self, other: &Size) -> Option<Ordering> {
         if self.w < other.w && self.h <= other.h {
@@ -62,7 +63,7 @@ pub struct Geometry {
     pub size: Size,
 }
 
-#[allow(if_same_then_else)]
+#[cfg_attr(feature = "cargo-clippy", allow(if_same_then_else))]
 impl PartialOrd for Geometry {
     fn partial_cmp(&self, other: &Geometry) -> Option<Ordering> {
         if self.origin < other.origin && self.size <= other.size {
