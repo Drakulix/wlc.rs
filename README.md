@@ -48,12 +48,12 @@ wlc = "0.1"
 
 For stable
 ```
-wlc = { version = "0.1", features = "unsafe-stable" }
+wlc = { version = "1.0", features = "unsafe-stable" }
 ```
 
 For static compilation (combination is possible)
 ```
-wlc = { version = "0.1", features = "static" }
+wlc = { version = "1.0", features = "static" }
 ```
 See [wlc](https://github.com/Cloudef/wlc) for build dependencies, when doing a static build.
 

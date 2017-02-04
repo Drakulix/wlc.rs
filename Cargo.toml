@@ -1,6 +1,6 @@
 [package]
 name = "wlc"
-version = "0.1.0"
+version = "1.0.0"
 authors = ["Victor Brekenfeld (Drakulix) <github@drakulix.de>"]
 description = "Safe Bindings for Cloudef's wlc (Wayland Compositor C-Library)"
 documentation = "https://drakulix.github.io/wlc"
@@ -9,7 +9,7 @@ readme = "README.md"
 keywords = ["wayland", "compositor", "bindings"]
 categories = ["external-ffi-bindings", "gui"]
 license = "MIT"
-exclude = [".travis.yml", ".rustfmt.toml"]
+exclude = [".travis.yml", ".rustfmt.toml", "vagga.yaml"]
 
 [badges]
 travis-ci = { repository = "Drakulix/wlc" }
