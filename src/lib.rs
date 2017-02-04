@@ -339,16 +339,19 @@ extern "C" fn ffi_pointer_button(handle: ffi::wlc_handle, time: u32, mods: *cons
     unsafe {
         match (&mut *CALLBACK.0.get()).as_mut() {
             Some(ref mut callback) => {
-                callback.pointer_button(if handle == 0 { None } else { Some(view) },
+                if let Some(button) = Button::from_u32(button) {
+                    callback.pointer_button(if handle == 0 { None } else { Some(view) },
                                         time,
                                         Modifiers::from_ffi(&*mods),
-                                        Button::from_u32(button)
-                                            .expect(&format!("Wlc send an unknown Button {}. Aborting",
-                                                             button)),
+                                        button,
                                         ButtonState::from_u32(state)
                                             .expect(&format!("Wlc send an unknown ButtonState {}. Aborting",
                                                              state)),
                                         Point::from_ffi(&*at))
+                } else {
+                    warn!("Wlc send an unknown Button {}. Ignoring", button);
+                    false
+                }
             }
             None => false,
         }
