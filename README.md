@@ -58,7 +58,17 @@ wlc = { version = "1.0", features = "static" }
 See [wlc](https://github.com/Cloudef/wlc) for build dependencies, when doing a static build.
 
 
-Additionally the features `render` and `wayland` enable the optional extensions wlc provides.
+Additionally `libclang>=3.8` is needed for code generation during build.
+
+If you have `libclang` in another path then `/usr/lib` you have to provide it when building your binary:
+```
+LIBCLANG_PATH=/usr/lib64 cargo build --release
+```
+
+See https://github.com/KyleMayes/clang-sys#environment-variables for more options.
+
+
+The features `render` and `wayland` enable the optional extensions wlc provides.
 
 In that case `WlcSurface`, `WlcSubSurface` and `GLES2Renderer` should also not be send across threads, when using `unsafe-stable`.
 
