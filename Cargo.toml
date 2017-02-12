@@ -1,6 +1,6 @@
 [package]
 name = "wlc"
-version = "1.0.0"
+version = "1.0.1"
 authors = ["Drakulix <github@drakulix.de>"]
 description = "Safe Bindings for Cloudef's wlc (Wayland Compositor C-Library)"
 documentation = "https://drakulix.github.io/wlc.rs"
