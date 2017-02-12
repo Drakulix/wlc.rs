@@ -1,8 +1,8 @@
-# [wlc](https://github.com/Cloudef/wlc) Bindings for Rust [![Build Status](https://travis-ci.org/Drakulix/wlc.svg?branch=master)](https://travis-ci.org/Drakulix/wlc) [![Crates.io](https://img.shields.io/crates/v/wlc.svg)](https://crates.io/crates/simplelog) [![Crates.io](https://img.shields.io/crates/l/wlc.svg)](https://crates.io/crates/simplelog) [![](https://tokei.rs/b1/github/Drakulix/wlc)](https://github.com/Aaronepower/tokei)
+# [wlc](https://github.com/Cloudef/wlc) Bindings for Rust [![Build Status](https://travis-ci.org/Drakulix/wlc.svg?branch=master)](https://travis-ci.org/Drakulix/wlc.rs) [![Crates.io](https://img.shields.io/crates/v/wlc.svg)](https://crates.io/crates/wlc) [![Crates.io](https://img.shields.io/crates/l/wlc.svg)](https://crates.io/crates/wlc) [![](https://tokei.rs/b1/github/Drakulix/wlc.rs)](https://github.com/Aaronepower/tokei)
 
 Completely safe and idiomatic bindings to the wayland compositor library.
 
-## [Documentation](https://drakulix.github.io/wlc)
+## [Documentation](https://drakulix.github.io/wlc.rs)
 
 ## Example
 
