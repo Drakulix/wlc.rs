@@ -161,6 +161,7 @@ impl<'a> Renderer for GLES2Renderer<'a> {
         let size = geometry.size.w * geometry.size.h;
         let mut data = Vec::with_capacity(size as usize * 4);
         unsafe {
+            data.set_len(size as usize * 4);
             let mut final_geometry: ffi::wlc_geometry = mem::uninitialized();
             ffi::wlc_pixels_read(format as u32,
                                  &geometry.into_ffi() as *const _,
