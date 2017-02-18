@@ -17,7 +17,7 @@ travis-ci = { repository = "Drakulix/wlc.rs" }
 [dependencies]
 wlc-sys = { path = "wlc-sys", version = "0.0.7" }
 lazy_static = "0.2"
-bitflags = "0.7"
+bitflags = "0.8"
 num-traits = "^0.1.35"
 xkbcommon = "0.2"
 uinput-sys = "0.1"

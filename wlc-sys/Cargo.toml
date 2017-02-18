@@ -15,7 +15,7 @@ exclude = [".travis.yml", ".rustfmt.toml"]
 path = "src/lib.rs"
 
 [build-dependencies]
-bindgen = "0.20"
+bindgen = "0.22"
 cmake = { version = "0.1", optional = true }
 
 [dependencies]
