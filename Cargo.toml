@@ -1,6 +1,6 @@
 [package]
 name = "wlc"
-version = "2.0.0"
+version = "2.0.1"
 authors = ["Drakulix <github@drakulix.de>"]
 description = "Safe Bindings for Cloudef's wlc (Wayland Compositor C-Library)"
 documentation = "https://drakulix.github.io/wlc.rs"
@@ -15,7 +15,7 @@ exclude = [".travis.yml", ".rustfmt.toml", "vagga.yaml"]
 travis-ci = { repository = "Drakulix/wlc.rs" }
 
 [dependencies]
-wlc-sys = { path = "wlc-sys", version = "0.0.7" }
+wlc-sys = { path = "wlc-sys", version = "0.0.8" }
 lazy_static = "0.2"
 bitflags = "0.8"
 num-traits = "^0.1.35"
