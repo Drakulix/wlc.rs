@@ -1,0 +1,1 @@
+initSidebarItems({"macro":[["ffi_dispatch",""]],"mod":[["common","Various types and functions that are used by both the client and the server libraries."],["server","Bindings to the client library `libwayland-server.so`"]],"type":[["gid_t",""],["pid_t",""],["uid_t",""]]});

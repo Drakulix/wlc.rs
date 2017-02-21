@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `WlDataSource` struct in crate `wayland_server`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, WlDataSource">
+
+    <title>wayland_server::protocol::wl_data_source::WlDataSource - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../index.html'>wayland_server</a>::<wbr><a href='../index.html'>protocol</a>::<wbr><a href='index.html'>wl_data_source</a></p><script>window.sidebarCurrent = {name: 'WlDataSource', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../../index.html'>wayland_server</a>::<wbr><a href='../index.html'>protocol</a>::<wbr><a href='index.html'>wl_data_source</a>::<wbr><a class='struct' href=''>WlDataSource</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../../src/wayland_server/work/target/debug/build/wayland-server-56dec8ec6c00db86/out/wayland_api.rs.html#927-930' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct WlDataSource { /* fields omitted */ }</pre><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../../wayland_server/protocol/wl_data_source/struct.WlDataSource.html' title='struct wayland_server::protocol::wl_data_source::WlDataSource'>WlDataSource</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/wayland_server/work/target/debug/build/wayland-server-56dec8ec6c00db86/out/wayland_api.rs.html#1041-1153' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.target' class='method'><span id='target.v' class='invisible'><code>fn <a href='#method.target' class='fnname'>target</a>(&amp;self, mime_type: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='enum core::option::Option'>Option</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='struct collections::string::String'>String</a>&gt;) -&gt; <a class='enum' href='../../../wayland_server/enum.EventResult.html' title='enum wayland_server::EventResult'>EventResult</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</code></span></h4>
+<div class='docblock'><p>a target accepts an offered mime type</p>
+
+<p>Sent when a target accepts pointer_focus or motion events.  If
+a target does not accept any of the offered types, type is NULL.</p>
+
+<p>Used for feedback during drag-and-drop.</p>
+</div><h4 id='method.send' class='method'><span id='send.v' class='invisible'><code>fn <a href='#method.send' class='fnname'>send</a>(&amp;self, mime_type: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='struct collections::string::String'>String</a>, fd: <a class='type' href='https://doc.rust-lang.org/nightly/std/sys/imp/ext/io/type.RawFd.html' title='type std::sys::imp::ext::io::RawFd'>RawFd</a>) -&gt; <a class='enum' href='../../../wayland_server/enum.EventResult.html' title='enum wayland_server::EventResult'>EventResult</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</code></span></h4>
+<div class='docblock'><p>send the data</p>
+
+<p>Request for data from the client.  Send the data as the
+specified mime type over the passed file descriptor, then
+close it.</p>
+</div><h4 id='method.cancelled' class='method'><span id='cancelled.v' class='invisible'><code>fn <a href='#method.cancelled' class='fnname'>cancelled</a>(&amp;self) -&gt; <a class='enum' href='../../../wayland_server/enum.EventResult.html' title='enum wayland_server::EventResult'>EventResult</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</code></span></h4>
+<div class='docblock'><p>selection was cancelled</p>
+
+<p>This data source is no longer valid. There are several reasons why
+this could happen:</p>
+
+<ul>
+<li>The data source has been replaced by another data source.</li>
+<li>The drag-and-drop operation was performed, but the drop destination
+did not accept any of the mime types offered through
+wl_data_source.target.</li>
+<li>The drag-and-drop operation was performed, but the drop destination
+did not select any of the actions present in the mask offered through
+wl_data_source.action.</li>
+<li>The drag-and-drop operation was performed but didn&#39;t happen over a
+surface.</li>
+<li>The compositor cancelled the drag-and-drop operation (e.g. compositor
+dependent timeouts to avoid stale drag-and-drop transfers).</li>
+</ul>
+
+<p>The client should clean up and destroy this data source.</p>
+
+<p>For objects of version 2 or older, wl_data_source.cancelled will
+only be emitted if the data source was replaced by another data
+source.</p>
+</div><h4 id='method.dnd_drop_performed' class='method'><span id='dnd_drop_performed.v' class='invisible'><code>fn <a href='#method.dnd_drop_performed' class='fnname'>dnd_drop_performed</a>(&amp;self) -&gt; <a class='enum' href='../../../wayland_server/enum.EventResult.html' title='enum wayland_server::EventResult'>EventResult</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</code></span></h4>
+<div class='docblock'><p>the drag-and-drop operation physically finished</p>
+
+<p>The user performed the drop action. This event does not indicate
+acceptance, wl_data_source.cancelled may still be emitted afterwards
+if the drop destination does not accept any mime type.</p>
+
+<p>However, this event might however not be received if the compositor
+cancelled the drag-and-drop operation before this event could happen.</p>
+
+<p>Note that the data_source may still be used in the future and should
+not be destroyed here.</p>
+</div><h4 id='method.dnd_finished' class='method'><span id='dnd_finished.v' class='invisible'><code>fn <a href='#method.dnd_finished' class='fnname'>dnd_finished</a>(&amp;self) -&gt; <a class='enum' href='../../../wayland_server/enum.EventResult.html' title='enum wayland_server::EventResult'>EventResult</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</code></span></h4>
+<div class='docblock'><p>the drag-and-drop operation concluded</p>
+
+<p>The drop destination finished interoperating with this data
+source, so the client is now free to destroy this data source and
+free all associated data.</p>
+
+<p>If the action used to perform the operation was &quot;move&quot;, the
+source can now delete the transferred data.</p>
+</div><h4 id='method.action' class='method'><span id='action.v' class='invisible'><code>fn <a href='#method.action' class='fnname'>action</a>(&amp;self, dnd_action: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a class='enum' href='../../../wayland_server/enum.EventResult.html' title='enum wayland_server::EventResult'>EventResult</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</code></span></h4>
+<div class='docblock'><p>notify the selected action</p>
+
+<p>This event indicates the action selected by the compositor after
+matching the source/destination side actions. Only one action (or
+none) will be offered here.</p>
+
+<p>This event can be emitted multiple times during the drag-and-drop
+operation, mainly in response to destination side changes through
+wl_data_offer.set_actions, and as the data device enters/leaves
+surfaces.</p>
+
+<p>It is only possible to receive this event after
+wl_data_source.dnd_drop_performed if the drag-and-drop operation
+ended in an &quot;ask&quot; action, in which case the final wl_data_source.action
+event will happen immediately before wl_data_source.dnd_finished.</p>
+
+<p>Compositors may also change the selected action on the fly, mainly
+in response to keyboard modifier changes during the drag-and-drop
+operation.</p>
+
+<p>The most recent action received is always the valid one. The chosen
+action may change alongside negotiation (e.g. an &quot;ask&quot; action can turn
+into a &quot;move&quot; operation), so the effects of the final action must
+always be applied in wl_data_offer.dnd_finished.</p>
+
+<p>Clients can trigger cursor surface changes from this point, so
+they reflect the current action.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Send.html' title='trait core::marker::Send'>Send</a> for <a class='struct' href='../../../wayland_server/protocol/wl_data_source/struct.WlDataSource.html' title='struct wayland_server::protocol::wl_data_source::WlDataSource'>WlDataSource</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/wayland_server/work/target/debug/build/wayland-server-56dec8ec6c00db86/out/wayland_api.rs.html#932' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html' title='trait core::marker::Sync'>Sync</a> for <a class='struct' href='../../../wayland_server/protocol/wl_data_source/struct.WlDataSource.html' title='struct wayland_server::protocol::wl_data_source::WlDataSource'>WlDataSource</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/wayland_server/work/target/debug/build/wayland-server-56dec8ec6c00db86/out/wayland_api.rs.html#933' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../../../wayland_server/trait.Resource.html' title='trait wayland_server::Resource'>Resource</a> for <a class='struct' href='../../../wayland_server/protocol/wl_data_source/struct.WlDataSource.html' title='struct wayland_server::protocol::wl_data_source::WlDataSource'>WlDataSource</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/wayland_server/work/target/debug/build/wayland-server-56dec8ec6c00db86/out/wayland_api.rs.html#935-959' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.ptr' class='method'><span id='ptr.v' class='invisible'><code>fn <a href='../../../wayland_server/trait.Resource.html#tymethod.ptr' class='fnname'>ptr</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*mut </a><a class='enum' href='../../../wayland_sys/server/enum.wl_resource.html' title='enum wayland_sys::server::wl_resource'>wl_resource</a></code></span></h4>
+<div class='docblock'><p>Pointer to the underlying wayland proxy object</p>
+</div><h4 id='method.from_ptr_new' class='method'><span id='from_ptr_new.v' class='invisible'><code>unsafe fn <a href='../../../wayland_server/trait.Resource.html#tymethod.from_ptr_new' class='fnname'>from_ptr_new</a>(ptr: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*mut </a><a class='enum' href='../../../wayland_sys/server/enum.wl_resource.html' title='enum wayland_sys::server::wl_resource'>wl_resource</a>) -&gt; <a class='struct' href='../../../wayland_server/protocol/wl_data_source/struct.WlDataSource.html' title='struct wayland_server::protocol::wl_data_source::WlDataSource'>WlDataSource</a></code></span></h4>
+<div class='docblock'><p>Create an instance from a wayland pointer <a href="../../../wayland_server/trait.Resource.html#tymethod.from_ptr_new">Read more</a></p>
+</div><h4 id='method.from_ptr_initialized' class='method'><span id='from_ptr_initialized.v' class='invisible'><code>unsafe fn <a href='../../../wayland_server/trait.Resource.html#tymethod.from_ptr_initialized' class='fnname'>from_ptr_initialized</a>(ptr: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*mut </a><a class='enum' href='../../../wayland_sys/server/enum.wl_resource.html' title='enum wayland_sys::server::wl_resource'>wl_resource</a>) -&gt; <a class='struct' href='../../../wayland_server/protocol/wl_data_source/struct.WlDataSource.html' title='struct wayland_server::protocol::wl_data_source::WlDataSource'>WlDataSource</a></code></span></h4>
+<div class='docblock'><p>Create an instance from a wayland pointer <a href="../../../wayland_server/trait.Resource.html#tymethod.from_ptr_initialized">Read more</a></p>
+</div><h4 id='method.interface_ptr' class='method'><span id='interface_ptr.v' class='invisible'><code>fn <a href='../../../wayland_server/trait.Resource.html#tymethod.interface_ptr' class='fnname'>interface_ptr</a>() -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a><a class='struct' href='../../../wayland_sys/common/struct.wl_interface.html' title='struct wayland_sys::common::wl_interface'>wl_interface</a></code></span></h4>
+<div class='docblock'><p>Pointer to the interface representation</p>
+</div><h4 id='method.interface_name' class='method'><span id='interface_name.v' class='invisible'><code>fn <a href='../../../wayland_server/trait.Resource.html#tymethod.interface_name' class='fnname'>interface_name</a>() -&gt; &amp;'static <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a></code></span></h4>
+<div class='docblock'><p>Internal wayland name of this interface</p>
+</div><h4 id='method.supported_version' class='method'><span id='supported_version.v' class='invisible'><code>fn <a href='../../../wayland_server/trait.Resource.html#tymethod.supported_version' class='fnname'>supported_version</a>() -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a></code></span></h4>
+<div class='docblock'><p>Max version of this interface supported</p>
+</div><h4 id='method.version' class='method'><span id='version.v' class='invisible'><code>fn <a href='../../../wayland_server/trait.Resource.html#tymethod.version' class='fnname'>version</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a></code></span></h4>
+<div class='docblock'><p>Current version of the interface this resource is instanciated with</p>
+</div><h4 id='method.is_alive' class='method'><span id='is_alive.v' class='invisible'><code>fn <a href='../../../wayland_server/trait.Resource.html#tymethod.is_alive' class='fnname'>is_alive</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></span></h4>
+<div class='docblock'><p>Check if the resource behind this handle is actually still alive</p>
+</div><h4 id='method.equals' class='method'><span id='equals.v' class='invisible'><code>fn <a href='../../../wayland_server/trait.Resource.html#tymethod.equals' class='fnname'>equals</a>(&amp;self, other: &amp;<a class='struct' href='../../../wayland_server/protocol/wl_data_source/struct.WlDataSource.html' title='struct wayland_server::protocol::wl_data_source::WlDataSource'>WlDataSource</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></span></h4>
+<div class='docblock'><p>Check of two handles are actually the same wayland object <a href="../../../wayland_server/trait.Resource.html#tymethod.equals">Read more</a></p>
+</div><h4 id='method.set_user_data' class='method'><span id='set_user_data.v' class='invisible'><code>fn <a href='../../../wayland_server/trait.Resource.html#tymethod.set_user_data' class='fnname'>set_user_data</a>(&amp;self, ptr: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*mut </a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>)</code></span></h4>
+<div class='docblock'><p>Set a pointer associated as user data on this resource <a href="../../../wayland_server/trait.Resource.html#tymethod.set_user_data">Read more</a></p>
+</div><h4 id='method.get_user_data' class='method'><span id='get_user_data.v' class='invisible'><code>fn <a href='../../../wayland_server/trait.Resource.html#tymethod.get_user_data' class='fnname'>get_user_data</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*mut </a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a></code></span></h4>
+<div class='docblock'><p>Get the pointer associated as user data on this resource <a href="../../../wayland_server/trait.Resource.html#tymethod.get_user_data">Read more</a></p>
+</div><h4 id='method.post_error' class='method'><span id='post_error.v' class='invisible'><code>fn <a href='../../../wayland_server/trait.Resource.html#method.post_error' class='fnname'>post_error</a>(&amp;self, error_code: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, msg: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='struct collections::string::String'>String</a>)</code></span></h4>
+<div class='docblock'><p>Posts a protocol error to this resource <a href="../../../wayland_server/trait.Resource.html#method.post_error">Read more</a></p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "wayland_server";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Resource` trait in crate `wayland_server`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Resource">
+
+    <title>wayland_server::Resource - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='index.html'>wayland_server</a></p><script>window.sidebarCurrent = {name: 'Resource', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content trait">
+<h1 class='fqn'><span class='in-band'>Trait <a href='index.html'>wayland_server</a>::<wbr><a class='trait' href=''>Resource</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/wayland_server/lib.rs.html#205-271' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait Resource {
+    fn <a href='#tymethod.ptr' class='fnname'>ptr</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*mut </a><a class='enum' href='../wayland_sys/server/enum.wl_resource.html' title='enum wayland_sys::server::wl_resource'>wl_resource</a>;
+    unsafe fn <a href='#tymethod.from_ptr_new' class='fnname'>from_ptr_new</a>(_: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*mut </a><a class='enum' href='../wayland_sys/server/enum.wl_resource.html' title='enum wayland_sys::server::wl_resource'>wl_resource</a>) -&gt; Self;
+    unsafe fn <a href='#tymethod.from_ptr_initialized' class='fnname'>from_ptr_initialized</a>(_: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*mut </a><a class='enum' href='../wayland_sys/server/enum.wl_resource.html' title='enum wayland_sys::server::wl_resource'>wl_resource</a>) -&gt; Self;
+    fn <a href='#tymethod.interface_ptr' class='fnname'>interface_ptr</a>() -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a><a class='struct' href='../wayland_sys/common/struct.wl_interface.html' title='struct wayland_sys::common::wl_interface'>wl_interface</a>;
+    fn <a href='#tymethod.interface_name' class='fnname'>interface_name</a>() -&gt; &amp;'static <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>;
+    fn <a href='#tymethod.supported_version' class='fnname'>supported_version</a>() -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>;
+    fn <a href='#tymethod.version' class='fnname'>version</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>;
+    fn <a href='#tymethod.is_alive' class='fnname'>is_alive</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>;
+    fn <a href='#tymethod.equals' class='fnname'>equals</a>(&amp;self, _: &amp;Self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>;
+    fn <a href='#tymethod.set_user_data' class='fnname'>set_user_data</a>(&amp;self, ptr: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*mut </a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>);
+    fn <a href='#tymethod.get_user_data' class='fnname'>get_user_data</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*mut </a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>;
+
+    fn <a href='#method.post_error' class='fnname'>post_error</a>(&amp;self, error_code: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, msg: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='struct collections::string::String'>String</a>) { ... }
+}</pre><div class='docblock'><p>Common routines for wayland resource objects.</p>
+
+<p>All wayland objects automatically implement this trait
+as generated by the scanner.</p>
+
+<p>It is mostly used for internal use by the library, and you
+should only need these methods for interfacing with C library
+working on wayland objects.</p>
+</div>
+            <h2 id='required-methods'>Required Methods</h2>
+            <div class='methods'>
+        <h3 id='tymethod.ptr' class='method'><span id='ptr.v' class='invisible'><code>fn <a href='#tymethod.ptr' class='fnname'>ptr</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*mut </a><a class='enum' href='../wayland_sys/server/enum.wl_resource.html' title='enum wayland_sys::server::wl_resource'>wl_resource</a></code></span></h3><div class='docblock'><p>Pointer to the underlying wayland proxy object</p>
+</div><h3 id='tymethod.from_ptr_new' class='method'><span id='from_ptr_new.v' class='invisible'><code>unsafe fn <a href='#tymethod.from_ptr_new' class='fnname'>from_ptr_new</a>(_: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*mut </a><a class='enum' href='../wayland_sys/server/enum.wl_resource.html' title='enum wayland_sys::server::wl_resource'>wl_resource</a>) -&gt; Self</code></span></h3><div class='docblock'><p>Create an instance from a wayland pointer</p>
+
+<p>The pointer must refer to a valid wayland resource
+of the appropriate interface, but that have not yet
+been seen by the library.</p>
+
+<p>The library will take control of the object (notably
+overwrite its user_data).</p>
+</div><h3 id='tymethod.from_ptr_initialized' class='method'><span id='from_ptr_initialized.v' class='invisible'><code>unsafe fn <a href='#tymethod.from_ptr_initialized' class='fnname'>from_ptr_initialized</a>(_: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*mut </a><a class='enum' href='../wayland_sys/server/enum.wl_resource.html' title='enum wayland_sys::server::wl_resource'>wl_resource</a>) -&gt; Self</code></span></h3><div class='docblock'><p>Create an instance from a wayland pointer</p>
+
+<p>The pointer must refer to a valid wayland resource
+of the appropriate interface, and have already been
+initialized by the library (it&#39;ll assume this proxy
+user_data contains a certain kind of data).</p>
+</div><h3 id='tymethod.interface_ptr' class='method'><span id='interface_ptr.v' class='invisible'><code>fn <a href='#tymethod.interface_ptr' class='fnname'>interface_ptr</a>() -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a><a class='struct' href='../wayland_sys/common/struct.wl_interface.html' title='struct wayland_sys::common::wl_interface'>wl_interface</a></code></span></h3><div class='docblock'><p>Pointer to the interface representation</p>
+</div><h3 id='tymethod.interface_name' class='method'><span id='interface_name.v' class='invisible'><code>fn <a href='#tymethod.interface_name' class='fnname'>interface_name</a>() -&gt; &amp;'static <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a></code></span></h3><div class='docblock'><p>Internal wayland name of this interface</p>
+</div><h3 id='tymethod.supported_version' class='method'><span id='supported_version.v' class='invisible'><code>fn <a href='#tymethod.supported_version' class='fnname'>supported_version</a>() -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a></code></span></h3><div class='docblock'><p>Max version of this interface supported</p>
+</div><h3 id='tymethod.version' class='method'><span id='version.v' class='invisible'><code>fn <a href='#tymethod.version' class='fnname'>version</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a></code></span></h3><div class='docblock'><p>Current version of the interface this resource is instanciated with</p>
+</div><h3 id='tymethod.is_alive' class='method'><span id='is_alive.v' class='invisible'><code>fn <a href='#tymethod.is_alive' class='fnname'>is_alive</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></span></h3><div class='docblock'><p>Check if the resource behind this handle is actually still alive</p>
+</div><h3 id='tymethod.equals' class='method'><span id='equals.v' class='invisible'><code>fn <a href='#tymethod.equals' class='fnname'>equals</a>(&amp;self, _: &amp;Self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></span></h3><div class='docblock'><p>Check of two handles are actually the same wayland object</p>
+
+<p>Returns <code>false</code> if any of the objects has already been destroyed</p>
+</div><h3 id='tymethod.set_user_data' class='method'><span id='set_user_data.v' class='invisible'><code>fn <a href='#tymethod.set_user_data' class='fnname'>set_user_data</a>(&amp;self, ptr: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*mut </a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>)</code></span></h3><div class='docblock'><p>Set a pointer associated as user data on this resource</p>
+
+<p>All handles to the same wayland object share the same user data pointer.</p>
+
+<p>The get/set operations are atomic, no more guarantee is given. If you need
+to synchronise access to this data, it is your responsibility to add a Mutex
+or any other similar mechanism.</p>
+</div><h3 id='tymethod.get_user_data' class='method'><span id='get_user_data.v' class='invisible'><code>fn <a href='#tymethod.get_user_data' class='fnname'>get_user_data</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*mut </a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a></code></span></h3><div class='docblock'><p>Get the pointer associated as user data on this resource</p>
+
+<p>All handles to the same wayland object share the same user data pointer.</p>
+
+<p>See <code>set_user_data</code> for synchronisation guarantee.</p>
+</div></div>
+            <h2 id='provided-methods'>Provided Methods</h2>
+            <div class='methods'>
+        <h3 id='method.post_error' class='method'><span id='post_error.v' class='invisible'><code>fn <a href='#method.post_error' class='fnname'>post_error</a>(&amp;self, error_code: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, msg: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='struct collections::string::String'>String</a>)</code></span></h3><div class='docblock'><p>Posts a protocol error to this resource</p>
+
+<p>The error code can be obtained from the various <code>Error</code> enums of the protocols.</p>
+
+<p>An error is fatal to the client that caused it.</p>
+</div></div>
+        <h2 id='implementors'>Implementors</h2>
+        <ul class='item-list' id='implementors-list'>
+    <li><code>impl Resource for <a class='struct' href='../wayland_server/protocol/wl_callback/struct.WlCallback.html' title='struct wayland_server::protocol::wl_callback::WlCallback'>WlCallback</a></code></li>
+<li><code>impl Resource for <a class='struct' href='../wayland_server/protocol/wl_compositor/struct.WlCompositor.html' title='struct wayland_server::protocol::wl_compositor::WlCompositor'>WlCompositor</a></code></li>
+<li><code>impl Resource for <a class='struct' href='../wayland_server/protocol/wl_shm_pool/struct.WlShmPool.html' title='struct wayland_server::protocol::wl_shm_pool::WlShmPool'>WlShmPool</a></code></li>
+<li><code>impl Resource for <a class='struct' href='../wayland_server/protocol/wl_shm/struct.WlShm.html' title='struct wayland_server::protocol::wl_shm::WlShm'>WlShm</a></code></li>
+<li><code>impl Resource for <a class='struct' href='../wayland_server/protocol/wl_buffer/struct.WlBuffer.html' title='struct wayland_server::protocol::wl_buffer::WlBuffer'>WlBuffer</a></code></li>
+<li><code>impl Resource for <a class='struct' href='../wayland_server/protocol/wl_data_offer/struct.WlDataOffer.html' title='struct wayland_server::protocol::wl_data_offer::WlDataOffer'>WlDataOffer</a></code></li>
+<li><code>impl Resource for <a class='struct' href='../wayland_server/protocol/wl_data_source/struct.WlDataSource.html' title='struct wayland_server::protocol::wl_data_source::WlDataSource'>WlDataSource</a></code></li>
+<li><code>impl Resource for <a class='struct' href='../wayland_server/protocol/wl_data_device/struct.WlDataDevice.html' title='struct wayland_server::protocol::wl_data_device::WlDataDevice'>WlDataDevice</a></code></li>
+<li><code>impl Resource for <a class='struct' href='../wayland_server/protocol/wl_data_device_manager/struct.WlDataDeviceManager.html' title='struct wayland_server::protocol::wl_data_device_manager::WlDataDeviceManager'>WlDataDeviceManager</a></code></li>
+<li><code>impl Resource for <a class='struct' href='../wayland_server/protocol/wl_shell/struct.WlShell.html' title='struct wayland_server::protocol::wl_shell::WlShell'>WlShell</a></code></li>
+<li><code>impl Resource for <a class='struct' href='../wayland_server/protocol/wl_shell_surface/struct.WlShellSurface.html' title='struct wayland_server::protocol::wl_shell_surface::WlShellSurface'>WlShellSurface</a></code></li>
+<li><code>impl Resource for <a class='struct' href='../wayland_server/protocol/wl_surface/struct.WlSurface.html' title='struct wayland_server::protocol::wl_surface::WlSurface'>WlSurface</a></code></li>
+<li><code>impl Resource for <a class='struct' href='../wayland_server/protocol/wl_seat/struct.WlSeat.html' title='struct wayland_server::protocol::wl_seat::WlSeat'>WlSeat</a></code></li>
+<li><code>impl Resource for <a class='struct' href='../wayland_server/protocol/wl_pointer/struct.WlPointer.html' title='struct wayland_server::protocol::wl_pointer::WlPointer'>WlPointer</a></code></li>
+<li><code>impl Resource for <a class='struct' href='../wayland_server/protocol/wl_keyboard/struct.WlKeyboard.html' title='struct wayland_server::protocol::wl_keyboard::WlKeyboard'>WlKeyboard</a></code></li>
+<li><code>impl Resource for <a class='struct' href='../wayland_server/protocol/wl_touch/struct.WlTouch.html' title='struct wayland_server::protocol::wl_touch::WlTouch'>WlTouch</a></code></li>
+<li><code>impl Resource for <a class='struct' href='../wayland_server/protocol/wl_output/struct.WlOutput.html' title='struct wayland_server::protocol::wl_output::WlOutput'>WlOutput</a></code></li>
+<li><code>impl Resource for <a class='struct' href='../wayland_server/protocol/wl_region/struct.WlRegion.html' title='struct wayland_server::protocol::wl_region::WlRegion'>WlRegion</a></code></li>
+<li><code>impl Resource for <a class='struct' href='../wayland_server/protocol/wl_subcompositor/struct.WlSubcompositor.html' title='struct wayland_server::protocol::wl_subcompositor::WlSubcompositor'>WlSubcompositor</a></code></li>
+<li><code>impl Resource for <a class='struct' href='../wayland_server/protocol/wl_subsurface/struct.WlSubsurface.html' title='struct wayland_server::protocol::wl_subsurface::WlSubsurface'>WlSubsurface</a></code></li>
+</ul><script type="text/javascript" async
+                         src="../implementors/wayland_server/trait.Resource.js">
+                 </script></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "wayland_server";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

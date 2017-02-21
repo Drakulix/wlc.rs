@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["Keyboard",""],["Pointer",""],["Touch",""]],"struct":[["Capability","seat capability bitmask"],["WlSeat",""]],"trait":[["Handler",""]]});
