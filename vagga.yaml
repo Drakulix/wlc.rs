@@ -53,7 +53,7 @@ containers:
             - !Sh curl https://sh.rustup.rs -sSf | sh -s -- -y --default-host x86_64-unknown-linux-gnu --default-toolchain stable --no-modify-path
             - !Env PATH: /bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/work/.vagga/stable-home/.cargo/bin
             - !Sh cargo install -f --git https://github.com/hecal3/cargo-install-upgrade
-            - !Sh cargo install -f rustfmt
+            - !Sh cargo install rustfmt || cargo install-upgrade
     beta:
         auto-clean: true
         environ:
@@ -75,7 +75,7 @@ containers:
             - !Env HOME: /work/.vagga/nightly-home
             - !Sh curl https://sh.rustup.rs -sSf | sh -s -- -y --default-host x86_64-unknown-linux-gnu --default-toolchain nightly --no-modify-path
             - !Env PATH: /bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/work/.vagga/nightly-home/.cargo/bin
-            - !Sh cargo install --git https://github.com/hecal3/cargo-install-upgrade
+            - !Sh cargo install -f --git https://github.com/hecal3/cargo-install-upgrade
             - !Sh cargo install -f clippy
 
 commands:
