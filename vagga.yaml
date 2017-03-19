@@ -53,7 +53,7 @@ containers:
             - !Sh curl https://sh.rustup.rs -sSf | sh -s -- -y --default-host x86_64-unknown-linux-gnu --default-toolchain stable --no-modify-path
             - !Env PATH: /bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/work/.vagga/stable-home/.cargo/bin
             - !Sh cargo install -f cargo-update
-            - !Sh cargo install rustfmt || cargo install-update
+            - !Sh cargo install rustfmt || cargo install-update rustfmt
     beta:
         auto-clean: true
         environ:
@@ -83,7 +83,7 @@ commands:
         container: stable
         run: |
                 rustup update
-                cargo install-update
+                cargo install-update rustfmt
                 cargo fmt -- --write-mode=diff
 
     build-stable: !Command
