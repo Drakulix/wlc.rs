@@ -50,7 +50,6 @@ containers:
         setup:
             - !Container base
             - !Env HOME: /work/.vagga/stable-home
-            - !Sh rm -rf $HOME/.rustup $HOME/.cargo
             - !Sh curl https://sh.rustup.rs -sSf | sh -s -- -y --default-host x86_64-unknown-linux-gnu --default-toolchain stable --no-modify-path
             - !Env PATH: /bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/work/.vagga/stable-home/.cargo/bin
             - !Sh cargo install --git https://github.com/hecal3/cargo-install-upgrade
@@ -60,20 +59,20 @@ containers:
         environ:
             HOME: /work/.vagga/beta-home
             PATH: /bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/work/.vagga/beta-home/.cargo/bin:/work/.vagga/beta-home/.rustup/toolchains/beta-x86_64-unknown-linux-gnu/bin/
+            RUST_MIN_STACK: 32000000
         setup:
             - !Container base
             - !Env HOME: /work/.vagga/beta-home
-            - !Sh rm -rf $HOME/.rustup $HOME/.cargo
             - !Sh curl https://sh.rustup.rs -sSf | sh -s -- -y --default-host x86_64-unknown-linux-gnu --default-toolchain beta --no-modify-path
     nightly:
         auto-clean: true
         environ:
             HOME: /work/.vagga/nightly-home
             PATH: /bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/work/.vagga/nightly-home/.cargo/bin:/work/.vagga/nightly-home/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin/
+            RUST_MIN_STACK: 32000000
         setup:
             - !Container base
             - !Env HOME: /work/.vagga/nightly-home
-            - !Sh rm -rf $HOME/.rustup $HOME/.cargo
             - !Sh curl https://sh.rustup.rs -sSf | sh -s -- -y --default-host x86_64-unknown-linux-gnu --default-toolchain nightly --no-modify-path
             - !Env PATH: /bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/work/.vagga/nightly-home/.cargo/bin
             - !Sh cargo install --git https://github.com/hecal3/cargo-install-upgrade
@@ -142,7 +141,7 @@ commands:
         container: nightly
         run: |
                 rustup update
-                cargo install-upgrade
+                cargo install -f clippy
                 if [ -z "$@" ]; then
                     cargo clippy
                 else
