@@ -53,12 +53,11 @@ impl Drop for Timer {
 pub fn event_loop_add_timer<T: TimerCallback>(callback: T) -> Timer {
     let notification = Rc::new(());
 
-    let event_source =
-        unsafe {
-            ffi::wlc_event_loop_add_timer(Some(event_loop_timer_cb::<T>),
-                                          Box::into_raw(Box::new((callback, Rc::downgrade(&notification)))) as
-                                          *mut _)
-        };
+    let event_source = unsafe {
+        ffi::wlc_event_loop_add_timer(Some(event_loop_timer_cb::<T>),
+                                      Box::into_raw(Box::new((callback, Rc::downgrade(&notification)))) as
+                                      *mut _)
+    };
 
     Timer(event_source, notification)
 }

@@ -183,17 +183,14 @@ impl Output {
 
     /// Sets the view stack
     pub fn set_views<'a, I: IntoIterator<Item = &'a View>>(&self, views: I) -> Result<(), Vec<&'a View>> {
-        let mut vec: Vec<ffi::wlc_handle> = views.into_iter()
-            .map(|x| unsafe { mem::transmute::<&View, ffi::wlc_handle>(x) })
-            .collect();
+        let mut vec: Vec<ffi::wlc_handle> =
+            views.into_iter().map(|x| unsafe { mem::transmute::<&View, ffi::wlc_handle>(x) }).collect();
 
         let len = vec.len();
         if unsafe { ffi::wlc_output_set_views(handle(self), vec.as_mut_ptr(), len) } {
             Ok(mem::forget(vec))
         } else {
-            Err(vec.into_iter()
-                .map(|x| unsafe { mem::transmute::<ffi::wlc_handle, &View>(x) })
-                .collect())
+            Err(vec.into_iter().map(|x| unsafe { mem::transmute::<ffi::wlc_handle, &View>(x) }).collect())
         }
     }
 

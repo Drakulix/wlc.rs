@@ -211,12 +211,12 @@ impl wlc::Callback for Compositor {
                 return true;
             } else if modifiers.mods.contains(Modifier::Ctrl) && sym == Keysyms::KEY_Return {
                 process::Command::new(if env::var("TERMINAL").is_ok() {
-                        env::var("TERMINAL").unwrap()
-                    } else {
-                        String::from("weston-terminal")
-                    })
-                    .spawn()
-                    .expect("failed to spawn process");
+                                          env::var("TERMINAL").unwrap()
+                                      } else {
+                                          String::from("weston-terminal")
+                                      })
+                        .spawn()
+                        .expect("failed to spawn process");
                 return true;
             } else if modifiers.mods.contains(Modifier::Ctrl) && sym >= Keysyms::KEY_1 &&
                       sym <= Keysyms::KEY_9 {
